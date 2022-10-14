@@ -1,5 +1,3 @@
-using Microsoft.Maui.Dispatching;
-
 namespace MyMauiApp;
 
 public partial class MainPage : ContentPage
@@ -25,7 +23,11 @@ public partial class MainPage : ContentPage
 
         await Task.Run( () =>
         {
+#if WINDOWS
+            synccontext.Post( async _ => await QuitApplicationAsync(), null );
+#else
             synccontext.Send( async _ => await QuitApplicationAsync(), null );
+#endif
         } );
     }
 
